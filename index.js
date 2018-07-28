@@ -4,7 +4,7 @@
  * @param {!Object} event Event payload.
  * @param {!Object} context Metadata for the event.
  */
-
+const storage = require('@google-cloud/storage')();
 const bucket = storage.bucket('sacred-reality-201417-mlengine');
 
 exports.handler = (event, context) => {
