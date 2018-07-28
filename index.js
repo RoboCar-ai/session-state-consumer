@@ -22,7 +22,7 @@ exports.handler = async (event, context) => {
 };
 
 function updateSession(status, sessionData) {
-  if (status = 'starting') {
+  if (status === 'starting') {
     ++sessionData.count;
     sessionData.status = 'active';
   }   
