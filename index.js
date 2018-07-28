@@ -15,12 +15,18 @@ exports.handler = async (event, context) => {
   const session = bucket.file('sessions/donkey.json');
 
   sessionData = JSON.parse((await session.download()).toString('utf8'));
-  ++sessionData.count;
-
-  // update status.
-  if (content.command = 'start') sessionData.status = 'active';
-  else sessionData.status = 'inactive';
+  updateSession(content.status, sessionData);
 
   await session.save(JSON.stringify(sessionData));
   console.log('session updated to:', sessionData);
 };
+
+function updateSession(status, sessionData) {
+  if (status = 'starting') {
+    ++sessionData.count;
+    sessionData.status = 'active';
+  }   
+  else {
+    sessionData.status = 'inactive';
+  }
+}
