@@ -17,7 +17,11 @@ exports.handler = (event, context) => {
   session.download().then(data => {
     const sessionData = JSON.parse(data.toString('utf8'));
     ++sessionData.count;
-    sessionData.status = 'active';
-    return session.save(sessionData);
+
+    // update status.
+    if (content.command = 'start') sessionData.status = 'active';
+    else sessionData.status = 'inactive';
+
+    return session.save(JSON.stringify(sessionData));
   }).then(() => console.log('updated session'));
 };
