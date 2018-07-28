@@ -7,21 +7,20 @@
 const storage = require('@google-cloud/storage')();
 const bucket = storage.bucket('sacred-reality-201417-mlengine');
 
-exports.handler = (event, context) => {
+exports.handler = async (event, context) => {
   const pubsubMessage = event.data;
   const content = JSON.parse(Buffer.from(pubsubMessage, 'base64').toString());
   console.log('received message:', content);
   
   const session = bucket.file('sessions/donkey.json');
 
-  session.download().then(data => {
-    const sessionData = JSON.parse(data.toString('utf8'));
-    ++sessionData.count;
+  sessionData = JSON.parse((await session.download()).toString('utf8'));
+  ++sessionData.count;
 
-    // update status.
-    if (content.command = 'start') sessionData.status = 'active';
-    else sessionData.status = 'inactive';
+  // update status.
+  if (content.command = 'start') sessionData.status = 'active';
+  else sessionData.status = 'inactive';
 
-    return session.save(JSON.stringify(sessionData));
-  }).then(() => console.log('updated session'));
+  await session.save(JSON.stringify(sessionData));
+  console.log('session updated to:', sessionData);
 };
