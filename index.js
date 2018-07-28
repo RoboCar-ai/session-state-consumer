@@ -12,7 +12,7 @@ exports.handler = (event, context) => {
   const content = JSON.parse(Buffer.from(pubsubMessage, 'base64').toString());
   console.log('received message:', content);
   
-  const session = bucket.file('session/donkey.json');
+  const session = bucket.file('sessions/donkey.json');
 
   session.download().then(data => {
     const sessionData = JSON.parse(data.toString('utf8'));
